@@ -3,9 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone/features/auth/repository/auth_repository.dart';
 import 'dart:io';
 
+import 'package:whatsapp_clone/models/user_model.dart';
+
 final authControllerProvider = Provider((ref) {
   final authRespository = ref.watch(authRepositoryProvider);
   return AuthController(authRespository: authRespository, ref: ref);
+});
+
+final userDataAuthProvider = FutureProvider((ref) {
+  final AuthController = ref.watch(authControllerProvider);
 });
 
 class AuthController {
@@ -15,6 +21,10 @@ class AuthController {
     required this.authRespository,
     required this.ref,
   });
+
+  Future<UserModel?> getUserData() async {
+    UserModel? user = await authRespository.getCurrentUserData();
+  }
 
   void signInWithPhone(BuildContext context, String phoneNumber) {
     authRespository.signInWithPhone(context, phoneNumber);
@@ -28,7 +38,7 @@ class AuthController {
     );
   }
 
- void saveUserDataToFirebase(
+  void saveUserDataToFirebase(
       BuildContext context, String name, File? profilePic) {
     authRespository.saveUserDataToFirebase(
       name: name,
@@ -38,4 +48,7 @@ class AuthController {
     );
   }
 
+  Stream<UserModel> userDataById(String userid) {
+    return authRespository.userData(userid);
+  }
 }

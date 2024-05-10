@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/color.dart';
 import 'package:whatsapp_clone/info.dart';
-import 'package:whatsapp_clone/pages/mobile_chat.dart';
+import 'package:whatsapp_clone/features/chat/screens/mobile_chat.dart';
 
 class ContactList extends StatelessWidget {
   const ContactList({super.key});
@@ -19,7 +19,10 @@ class ContactList extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const MobileChat(),
+                      MaterialPageRoute(builder: (context) => const MobileChat(
+                        name: 'PR',
+                        uid: '12345',
+                      ),
                       ),
                       );
                 },
